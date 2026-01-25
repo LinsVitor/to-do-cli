@@ -157,10 +157,10 @@ public class SQLiteRepository implements TaskRepository{
             String searchByTitle = """
                     SELECT *
                     FROM tasks
-                    WHERE title GLOB ?
+                    WHERE title LIKE ?
                     """;
             pst = conn.prepareStatement(searchByTitle);
-            pst.setString(1, "*" + title + "*");
+            pst.setString(1, "%" + title + "%");
             rs = pst.executeQuery();
             List<Task> tasks = new ArrayList<>();
             while (rs.next()) {
