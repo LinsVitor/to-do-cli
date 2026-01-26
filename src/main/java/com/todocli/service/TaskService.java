@@ -61,7 +61,7 @@ public class TaskService {
             throw new ServiceException("Status can't be empty. Please enter a valid status (todo, in progress or done).");
         }
         String formatedStatus = formatStatus(status);
-        if (!noneMatchStatus(status)) {
+        if (noneMatchStatus(formatedStatus)) {
             throw new ServiceException("None match for this status. Valid status (todo, in progress or done)");
         }
         Task task = repository.findById(id);
@@ -90,7 +90,7 @@ public class TaskService {
             throw new ServiceException("Status can't be empty. Please enter a valid status (todo, in progress or done).");
         }
         String formatedStatus = formatStatus(status);
-        if (!noneMatchStatus(formatedStatus)) {
+        if (noneMatchStatus(formatedStatus)) {
             throw new ServiceException("None match for this status. Valid status (todo, in progress or done)");
         }
         List<Task> tasks = repository.findByStatus(Status.valueOf(formatedStatus));
