@@ -27,6 +27,10 @@ public class Task {
         );
     }
 
+    public Integer getTaskId() {
+        return taskId;
+    }
+
     public void setTaskId(Integer taskId) {
         this.taskId = taskId;
     }
@@ -71,22 +75,28 @@ public class Task {
         this.status = status;
     }
 
+    private String getStatusColor() {
+        return switch (status) {
+            case TODO -> Color.getYELLOW();
+            case IN_PROGRESS -> Color.getBLUE();
+            case DONE -> Color.getGREEN();
+        };
+    }
+
     @Override
     public String toString() {
-        if (updatedAt != null) {
-            return Color.getBLUE() + "Id: " + Color.getRESET() + taskId + "\n"
-                    + Color.getBLUE() + "Title: " + Color.getRESET() + title + "\n"
-                    + Color.getBLUE() + "Description: " + Color.getRESET() + description + "\n"
-                    + Color.getBLUE() + "Status: " + Color.getRESET() + status + "\n"
-                    + Color.getBLUE() + "Created: " + Color.getRESET() + createdAt + "\n"
-                    + Color.getBLUE() + "Updated: " + Color.getRESET() + createdAt;
-        }
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+        String formattedCreatedAt = createdAt.format(formatter);
+        String formattedUpdatedAt = updatedAt != null ? updatedAt.format(formatter) : "N/A";
 
-        return Color.getBLUE() + "Id: " + Color.getRESET() + taskId + "\n"
-                + Color.getBLUE() + "Title: " + Color.getRESET() + title + "\n"
-                + Color.getBLUE() + "Description: " + Color.getRESET() + description + "\n"
-                + Color.getBLUE() + "Status: " + Color.getRESET() + status + "\n"
-                + Color.getBLUE() + "Created: " + Color.getRESET() + createdAt;
+        return " " + Color.getBrightBlack() + "----------------------------------------\n" + Color.getRESET() +
+                Color.getCYAN() + " ID: " + Color.getRESET() + taskId + "\n" +
+                Color.getCYAN() + " Title: " + Color.getRESET() + title + "\n" +
+                Color.getCYAN() + " Description: " + Color.getRESET() + description + "\n" +
+                Color.getCYAN() + " Status: " + getStatusColor() + status + Color.getRESET() + "\n" +
+                Color.getCYAN() + " Created at: " + Color.getRESET() + formattedCreatedAt + "\n" +
+                Color.getCYAN() + " Updated at: " + Color.getRESET() + formattedUpdatedAt + "\n" +
+                " " + Color.getBrightBlack() + "----------------------------------------" + Color.getRESET();
     }
 
     @Override
