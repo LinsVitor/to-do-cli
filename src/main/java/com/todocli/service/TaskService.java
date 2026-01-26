@@ -3,10 +3,10 @@ package com.todocli.service;
 import com.todocli.model.Status;
 import com.todocli.model.Task;
 import com.todocli.repository.SQLiteRepository;
-import com.todocli.util.Color;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.List;
 
 public class TaskService {
@@ -20,16 +20,10 @@ public class TaskService {
 
     public int create(String title, String description) {
         if (title.isEmpty()) {
-            throw new ServiceException(Color.getRED()
-                    + "Title can't be empty. Please enter a valid title."
-                    + Color.getRESET()
-            );
+            throw new ServiceException("Title can't be empty. Please enter a valid title.");
         }
         if (description.isEmpty()) {
-            throw new ServiceException(Color.getRED()
-                    + "Description can't be empty. Please enter a valid description."
-                    + Color.getRESET()
-            );
+            throw new ServiceException("Description can't be empty. Please enter a valid description.");
         }
         Task task = new Task(title, description);
         return repository.insert(task);
@@ -37,32 +31,20 @@ public class TaskService {
 
     public void delete(int id) {
         if (id < 0) {
-            throw new ServiceException(Color.getRED()
-                    + "The task ID can't be less than zero. Please enter a valid number."
-                    + Color.getRESET()
-            );
+            throw new ServiceException("The task ID can't be less than zero. Please enter a valid number.");
         }
         repository.delete(id);
     }
 
     public void update(int id, String title, String description) {
         if (id < 0) {
-            throw new ServiceException(Color.getRED()
-                    + "The task ID can't be less than zero. Please enter a valid number."
-                    + Color.getRESET()
-            );
+            throw new ServiceException("The task ID can't be less than zero. Please enter a valid number.");
         }
         if (title.isEmpty()) {
-            throw new ServiceException(Color.getRED()
-                    + "Title can't be empty. Please enter a valid title."
-                    + Color.getRESET()
-            );
+            throw new ServiceException("Title can't be empty. Please enter a valid title.");
         }
         if (description.isEmpty()) {
-            throw new ServiceException(Color.getRED()
-                    + "Description can't be empty. Please enter a valid description."
-                    + Color.getRESET()
-            );
+            throw new ServiceException("Description can't be empty. Please enter a valid description.");
         }
         Task task = repository.findById(id);
         task.setTitle(title);
@@ -73,29 +55,24 @@ public class TaskService {
 
     public void mark(int id, String status) {
         if (id < 0) {
-            throw new ServiceException(Color.getRED()
-                    + "The task ID can't be less than zero. Please enter a valid number."
-                    + Color.getRESET()
-            );
+            throw new ServiceException("The task ID can't be less than zero. Please enter a valid number.");
         }
         if (status.isEmpty()) {
-            throw new ServiceException(Color.getRED()
-                    + "Status can't be empty. Please enter a valid status (todo, in progress or done)."
-                    + Color.getRESET()
-            );
+            throw new ServiceException("Status can't be empty. Please enter a valid status (todo, in progress or done).");
+        }
+        String formatedStatus = formatStatus(status);
+        if (!noneMatchStatus(status)) {
+            throw new ServiceException("None match for this status. Valid status (todo, in progress or done)");
         }
         Task task = repository.findById(id);
-        task.setStatus(Status.valueOf(status.toUpperCase()));
+        task.setStatus(Status.valueOf(formatedStatus));
         task.setUpdatedAt(LocalDateTime.parse(LocalDateTime.now().format(formatter)));
         repository.update(id, task);
     }
 
     public Task find(int id) {
         if (id < 0) {
-            throw new ServiceException(Color.getRED()
-                    + "The task ID can't be less than zero. Please enter a valid number."
-                    + Color.getRESET()
-            );
+            throw new ServiceException("The task ID can't be less than zero. Please enter a valid number.");
         }
         return repository.findById(id);
     }
@@ -103,45 +80,42 @@ public class TaskService {
     public List<Task> findAll() {
         List<Task> tasks = repository.findAll();
         if (tasks.isEmpty()) {
-            throw new ServiceException(Color.getRED()
-                    + "No tasks found."
-                    + Color.getRESET()
-            );
+            throw new ServiceException("No tasks found.");
         }
         return tasks;
     }
 
     public List<Task> findByStatus(String status) {
         if (status.isEmpty()) {
-            throw new ServiceException(Color.getRED()
-                    + "Status can't be empty. Please enter a valid status (todo, in progress or done)."
-                    + Color.getRESET()
-            );
+            throw new ServiceException("Status can't be empty. Please enter a valid status (todo, in progress or done).");
         }
-        List<Task> tasks = repository.findByStatus(Status.valueOf(status.toUpperCase()));
+        String formatedStatus = formatStatus(status);
+        if (!noneMatchStatus(formatedStatus)) {
+            throw new ServiceException("None match for this status. Valid status (todo, in progress or done)");
+        }
+        List<Task> tasks = repository.findByStatus(Status.valueOf(formatedStatus));
         if (tasks.isEmpty()) {
-            throw new ServiceException(Color.getRED()
-                    + "No tasks found."
-                    + Color.getRESET()
-            );
+            throw new ServiceException("No tasks found.");
         }
         return tasks;
     }
 
     public List<Task> searchByTitle(String title) {
         if (title.isEmpty()) {
-            throw new ServiceException(Color.getRED()
-                    + "Search field can't be empty."
-                    + Color.getRESET()
-            );
+            throw new ServiceException("Search field can't be empty.");
         }
         List<Task> tasks = repository.searchByTitle(title);
         if (tasks.isEmpty()) {
-            throw new ServiceException(Color.getRED()
-                    + "No tasks found."
-                    + Color.getRESET()
-            );
+            throw new ServiceException("No tasks found.");
         }
         return tasks;
+    }
+
+    private String formatStatus(String status) {
+        return status.toUpperCase().trim().equals("INPROGRESS") ? status.toUpperCase().trim() : status.toUpperCase().replace(" ", "_").trim();
+    }
+
+    private boolean noneMatchStatus(String status) {
+        return Arrays.stream(Status.values()).noneMatch(x -> x.name().equals(status));
     }
 }
