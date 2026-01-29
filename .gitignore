@@ -42,5 +42,5 @@ build/
 ### Project ###
 /data/
 /bin/
-/todo-cli.jar
+/to-do-cli.jar
 *.class
