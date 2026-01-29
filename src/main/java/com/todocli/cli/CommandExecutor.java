@@ -36,8 +36,13 @@ public class CommandExecutor {
         }
         verifyField(args[1], "ID ");
         try {
+            Task task = taskService.find(Integer.parseInt(args[1]));
+            if (task == null) {
+                CliConsole.printErr(ErrorMessage.NULL_TASK.getMessage());
+                return;
+            }
             String choice = IO.readln(Color.getYELLOW() + "You are sure? (yes/no) " + Color.getRESET());
-            while (!choice.equalsIgnoreCase("yes") && !choice.equalsIgnoreCase("s") && !choice.equalsIgnoreCase("no") && !choice.equalsIgnoreCase("n")) {
+            while (!choice.equalsIgnoreCase("yes") && !choice.equalsIgnoreCase("y") && !choice.equalsIgnoreCase("no") && !choice.equalsIgnoreCase("n")) {
                 choice = IO.readln(Color.getYELLOW() + "You are sure? (yes/no) " + Color.getRESET());
             }
             if (choice.equalsIgnoreCase("yes") || choice.equalsIgnoreCase("y")) {
@@ -94,7 +99,8 @@ public class CommandExecutor {
         try {
             Task task = taskService.find(Integer.parseInt(args[1]));
             if (task == null) {
-                CliConsole.printErr(ErrorMessage.NULL_TASK);
+                CliConsole.printErr(ErrorMessage.NULL_TASK.getMessage());
+                return;
             }
             CliConsole.println(task);
         }
