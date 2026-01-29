@@ -13,6 +13,7 @@ import java.util.List;
 public class TaskService {
 
     private final SQLiteRepository repository;
+    private static final int MAX_TITLE_LENGTH = 28;
 
     public TaskService(SQLiteRepository repository) {
         this.repository = repository;
@@ -77,7 +78,7 @@ public class TaskService {
     }
 
     private void verifyTitle(String title) {
-        if (title.trim().length() > 28) {
+        if (title.trim().length() > MAX_TITLE_LENGTH) {
             throw new InvalidArgumentException(ErrorMessage.LARGE_TITLE.getMessage());
         }
     }
