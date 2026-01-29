@@ -1,6 +1,12 @@
 @ECHO OFF
+SETLOCAL enabledelayedexpansion
 CLS
-javac -d out src/main/java/com/todocli/*.java src/main/java/com/todocli/cli/*.java src/main/java/com/todocli/db/*.java src/main/java/com/todocli/model/*.java src/main/java/com/todocli/repository/*.java src/main/java/com/todocli/service/*.java src/main/java/com/todocli/util/*.java src/main/java/com/todocli/exception/*.java
+SET JAVA_FILES=
+FOR /f "delims=" %%i in ('dir /a-d /s /b src\main\java\com\todocli\*.java') DO (
+    SET "JAVA_FILES=!JAVA_FILES! "%%i""
+)
+javac -d out %JAVA_FILES%
 jar cvfm to-do-cli.jar MANIFEST.MF -C out .
 CLS
 ECHO Successfully Compiled
+ENDLOCAL
