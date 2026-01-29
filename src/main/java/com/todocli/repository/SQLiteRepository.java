@@ -1,7 +1,7 @@
 package com.todocli.repository;
 
 import com.todocli.db.ConnectionFactory;
-import com.todocli.db.DbException;
+import com.todocli.exception.DbException;
 import com.todocli.model.Status;
 import com.todocli.model.Task;
 
