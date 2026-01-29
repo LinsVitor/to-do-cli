@@ -1,4 +1,4 @@
-package com.todocli.service;
+package com.todocli.exception;
 
 import com.todocli.util.Color;
 
