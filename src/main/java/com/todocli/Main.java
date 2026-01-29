@@ -1,8 +1,8 @@
 package com.todocli;
 
 import com.todocli.cli.CliConsole;
+import com.todocli.cli.CommandExecutor;
 import com.todocli.cli.CommandParser;
-import com.todocli.cli.Commands;
 import com.todocli.exception.InvalidArgumentException;
 import com.todocli.exception.ServiceException;
 import com.todocli.repository.SQLiteRepository;
@@ -13,8 +13,8 @@ public class Main {
         try {
             SQLiteRepository sqLiteRepository = new SQLiteRepository();
             TaskService taskService = new TaskService(sqLiteRepository);
-            Commands commands = new Commands(taskService);
-            CommandParser commandParser = new CommandParser(commands);
+            CommandExecutor commandExecutor = new CommandExecutor(taskService);
+            CommandParser commandParser = new CommandParser(commandExecutor);
             commandParser.parser(args);
         }
         catch (ServiceException | InvalidArgumentException e) {

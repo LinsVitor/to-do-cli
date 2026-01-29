@@ -4,22 +4,22 @@ import com.todocli.util.ErrorMessage;
 
 public class CommandParser {
 
-    private final Commands commands;
+    private final CommandExecutor commandExecutor;
 
-    public CommandParser(Commands commands) {
-        this.commands = commands;
+    public CommandParser(CommandExecutor commandExecutor) {
+        this.commandExecutor = commandExecutor;
     }
 
     public void parser(String[] args) {
         if (args.length == 0) {
-            commands.help();
+            commandExecutor.help();
             return;
         }
 
         switch (args[0]) {
             case "create":
                 if (args.length > 1) {
-                    commands.create(args);
+                    commandExecutor.create(args);
                 }
                 else {
                     CliConsole.printErr(ErrorMessage.BAD_SYNTAX.getMessage());
@@ -27,7 +27,7 @@ public class CommandParser {
                 break;
             case "delete":
                 if (args.length > 1) {
-                    commands.delete(args);
+                    commandExecutor.delete(args);
                 }
                 else {
                     CliConsole.printErr(ErrorMessage.BAD_SYNTAX.getMessage());
@@ -35,7 +35,7 @@ public class CommandParser {
                 break;
             case "update":
                 if (args.length > 1) {
-                    commands.update(args);
+                    commandExecutor.update(args);
                 }
                 else {
                     CliConsole.printErr(ErrorMessage.BAD_SYNTAX.getMessage());
@@ -43,7 +43,7 @@ public class CommandParser {
                 break;
             case "mark":
                 if (args.length > 1) {
-                    commands.mark(args);
+                    commandExecutor.mark(args);
                 }
                 else {
                     CliConsole.printErr(ErrorMessage.INVALID_ID.getMessage());
@@ -51,7 +51,7 @@ public class CommandParser {
                 break;
             case "find":
                 if (args.length > 1) {
-                    commands.find(args);
+                    commandExecutor.find(args);
                 }
                 else {
                     CliConsole.printErr(ErrorMessage.BAD_SYNTAX.getMessage());
@@ -59,7 +59,7 @@ public class CommandParser {
                 break;
             case "list":
                 if (args.length >= 1) {
-                    commands.list(args);
+                    commandExecutor.list(args);
                 }
                 else {
                     CliConsole.printErr(ErrorMessage.BAD_SYNTAX.getMessage());
@@ -67,7 +67,7 @@ public class CommandParser {
                 break;
             case "search":
                 if (args.length > 1) {
-                    commands.search(args);
+                    commandExecutor.search(args);
                 }
                 else {
                     CliConsole.printErr(ErrorMessage.BAD_SYNTAX.getMessage());
@@ -75,7 +75,7 @@ public class CommandParser {
                 break;
             case "help":
                 if (args.length == 1) {
-                    commands.help();
+                    commandExecutor.help();
                 }
                 break;
             default:
