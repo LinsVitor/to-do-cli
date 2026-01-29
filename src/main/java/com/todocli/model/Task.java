@@ -22,9 +22,7 @@ public class Task {
         this.title = title;
         this.description = description;
         status = Status.TODO;
-        createdAt = LocalDateTime.parse(LocalDateTime.now()
-                .format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
-        );
+        createdAt = LocalDateTime.now();
     }
 
     public Integer getTaskId() {
