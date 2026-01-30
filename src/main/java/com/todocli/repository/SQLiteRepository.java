@@ -222,7 +222,7 @@ public class SQLiteRepository implements TaskRepository{
         if (rs.getString("updatedAt") != null) {
             task.setUpdatedAt(LocalDateTime.parse(rs.getString("updatedAt")));
         }
-        task.setStatus(Status.valueOf(rs.getString("status")));
+        task.setStatus(Status.fromString(rs.getString("status")));
         return task;
     }
 }
