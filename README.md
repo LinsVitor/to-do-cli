@@ -18,12 +18,12 @@ Este projeto aplica conceitos fundamentais de desenvolvimento de software, inclu
 
 2. Clone este repositório
 ```bash
-git clone https://github.com/LinsVitor/to-do.git
+git clone https://github.com/LinsVitor/to-do-cli.git
 ```
 
 3. Altere o terminal para pasta do projeto
 ```bash
-cd to-do
+cd to-do-cli
 ```
 
 4. Compile o projeto
