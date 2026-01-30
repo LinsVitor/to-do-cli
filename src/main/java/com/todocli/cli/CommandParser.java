@@ -1,6 +1,9 @@
 package com.todocli.cli;
 
+import com.todocli.cli.commands.*;
 import com.todocli.util.ErrorMessage;
+
+import java.util.Map;
 
 public class CommandParser {
 
@@ -11,78 +14,26 @@ public class CommandParser {
     }
 
     public void parser(String[] args) {
-        if (args.length == 0) {
-            commandExecutor.help();
-            return;
+        if (args.length >= 1) {
+            Map<String, Command> commandMap = Map.ofEntries(
+                    Map.entry("create", new CreateCommand(commandExecutor, args)),
+                    Map.entry("delete", new DeleteCommand(commandExecutor, args)),
+                    Map.entry("update", new UpdateCommand(commandExecutor, args)),
+                    Map.entry("mark", new MarkCommand(commandExecutor, args)),
+                    Map.entry("find", new FindCommand(commandExecutor, args)),
+                    Map.entry("list", new ListCommand(commandExecutor, args)),
+                    Map.entry("search", new SearchCommand(commandExecutor, args)),
+                    Map.entry("help", new HelpCommand(commandExecutor))
+            );
+            if (commandMap.containsKey(args[0].trim().toLowerCase())) {
+                commandMap.get(args[0].trim().toLowerCase()).execute();
+            }
+            else {
+                throw new IllegalArgumentException(ErrorMessage.BAD_SYNTAX.getMessage());
+            }
         }
-
-        switch (args[0]) {
-            case "create":
-                if (args.length > 1) {
-                    commandExecutor.create(args);
-                }
-                else {
-                    CliConsole.printErr(ErrorMessage.BAD_SYNTAX.getMessage());
-                }
-                break;
-            case "delete":
-                if (args.length > 1) {
-                    commandExecutor.delete(args);
-                }
-                else {
-                    CliConsole.printErr(ErrorMessage.BAD_SYNTAX.getMessage());
-                }
-                break;
-            case "update":
-                if (args.length > 1) {
-                    commandExecutor.update(args);
-                }
-                else {
-                    CliConsole.printErr(ErrorMessage.BAD_SYNTAX.getMessage());
-                }
-                break;
-            case "mark":
-                if (args.length > 1) {
-                    commandExecutor.mark(args);
-                }
-                else {
-                    CliConsole.printErr(ErrorMessage.INVALID_ID.getMessage());
-                }
-                break;
-            case "find":
-                if (args.length > 1) {
-                    commandExecutor.find(args);
-                }
-                else {
-                    CliConsole.printErr(ErrorMessage.BAD_SYNTAX.getMessage());
-                }
-                break;
-            case "list":
-                if (args.length >= 1) {
-                    commandExecutor.list(args);
-                }
-                else {
-                    CliConsole.printErr(ErrorMessage.BAD_SYNTAX.getMessage());
-                }
-                break;
-            case "search":
-                if (args.length > 1) {
-                    commandExecutor.search(args);
-                }
-                else {
-                    CliConsole.printErr(ErrorMessage.BAD_SYNTAX.getMessage());
-                }
-                break;
-            case "help":
-                if (args.length == 1) {
-                    commandExecutor.help();
-                }
-                break;
-            default:
-                if (args.length == 1) {
-                    CliConsole.printErr(ErrorMessage.INVALID_COMMAND);
-                }
-                break;
+        else {
+            throw new IllegalArgumentException(ErrorMessage.BAD_SYNTAX.getMessage());
         }
     }
 }
