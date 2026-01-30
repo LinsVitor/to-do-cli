@@ -27,7 +27,9 @@ public enum Status {
         if (value.equalsIgnoreCase("null")) {
             throw new InvalidArgumentException("Status " + ErrorMessage.NULL_FIELD.getMessage());
         }
-        String validValue = value.replaceFirst(" ", "_").replace("-", "_").trim().toUpperCase();
+        String validValue = value.trim().equalsIgnoreCase("in progress") || value.trim().equalsIgnoreCase("in-progress") ?
+                value.trim().replace(" ", "_").replace("-", "_").toUpperCase() :
+                value.replaceAll(" ", "").toUpperCase();
         if (Arrays.stream(Status.values()).noneMatch(status -> status.name().equals(validValue))) {
             throw new InvalidArgumentException(ErrorMessage.NO_MATCH_STATUS.getMessage());
         }
