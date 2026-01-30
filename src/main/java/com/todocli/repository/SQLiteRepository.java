@@ -133,20 +133,7 @@ public class SQLiteRepository implements TaskRepository{
                     FROM tasks
                     WHERE title LIKE ?
                     """;
-        try(Connection conn = ConnectionFactory.createConnection()) {
-            PreparedStatement pst = conn.prepareStatement(searchByTitle);
-            pst.setString(1, "%" + title + "%");
-            ResultSet rs = pst.executeQuery();
-            List<Task> tasks = new ArrayList<>();
-            while (rs.next()) {
-                Task task = mapResultSetToTask(rs);
-                tasks.add(task);
-            }
-            return tasks;
-        }
-        catch (SQLException e) {
-            throw new DbException(e.getMessage());
-        }
+        return findTasks(searchByTitle, title);
     }
 
     @Override
@@ -155,19 +142,7 @@ public class SQLiteRepository implements TaskRepository{
                     SELECT *
                     FROM tasks
                     """;
-        try(Connection conn = ConnectionFactory.createConnection()) {
-            Statement st = conn.createStatement();
-            ResultSet rs = st.executeQuery(findAll);
-            List<Task> tasks = new ArrayList<>();
-            while (rs.next()) {
-                Task task = mapResultSetToTask(rs);
-                tasks.add(task);
-            }
-            return tasks;
-        }
-        catch (SQLException e) {
-            throw new DbException(e.getMessage());
-        }
+        return findTasks(findAll);
     }
 
     @Override
@@ -177,20 +152,7 @@ public class SQLiteRepository implements TaskRepository{
                     FROM tasks
                     WHERE status = ?
                     """;
-        try(Connection conn = ConnectionFactory.createConnection()) {
-            PreparedStatement pst = conn.prepareStatement(findByStatus);
-            pst.setString(1, String.valueOf(status));
-            ResultSet rs = pst.executeQuery();
-            List<Task> tasks = new ArrayList<>();
-            while (rs.next()) {
-                Task task = mapResultSetToTask(rs);
-                tasks.add(task);
-            }
-            return tasks;
-        }
-        catch (SQLException e) {
-            throw new DbException(e.getMessage());
-        }
+        return findTasks(findByStatus, status);
     }
 
     private boolean existsId(int id) {
@@ -224,5 +186,23 @@ public class SQLiteRepository implements TaskRepository{
         }
         task.setStatus(Status.fromString(rs.getString("status")));
         return task;
+    }
+
+    private List<Task> findTasks(String sql, Object... params) {
+        List<Task> tasks = new ArrayList<>();
+        try(Connection conn = ConnectionFactory.createConnection()) {
+            PreparedStatement pst = conn.prepareStatement(sql);
+            for (int i = 0; i < params.length; i++) {
+                pst.setObject(i + 1, params[i]);
+            }
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                tasks.add(mapResultSetToTask(rs));
+            }
+        }
+        catch (SQLException e) {
+            throw new DbException(e.getMessage());
+        }
+        return tasks;
     }
 }
