@@ -107,10 +107,10 @@ Por padrão o arquivo to-do.bat funciona apenas no terminal na pasta do diretór
 | create   | Create a new task                | to-do create "Market List" "Buy groceries" |
 | update   | Update an existing task by ID    | to-do update 1 "To learn" "Learn C"        |
 | delete   | Remove a task                    | to-do delete 1                             |
-| search   | Search a task by keyword         | to-do find 1                               |
+| search   | Search a task by keyword         | to-do search "learn"                       |
 | find     | Find a task by ID                | to-do find 1                               |
 | list     | List all tasks                   | to-do list                                 |
-| list     | List tasks by status             | to-do list "todo"                          |
+| list     | List tasks by status             | to-do list "to do"                         |
 | mark     | Mark the status of a task        | to-do mark 1 "done"                        |
 +----------+----------------------------------+--------------------------------------------+
 ```
@@ -118,7 +118,17 @@ Por padrão o arquivo to-do.bat funciona apenas no terminal na pasta do diretór
 ```
 todocli/
 ├── cli/
+│   ├── commands/
+│   │   ├── CreateCommand.java
+│   │   ├── DeleteCommand.java
+│   │   ├── FindCommand.java
+│   │   ├── HelpCommand.java
+│   │   ├── ListCommand.java
+│   │   ├── MarkCommand.java
+│   │   ├── SearchCommand.java
+│   │   └── UpdateCommand.java
 │   ├── CliConsole.java
+│   ├── Command.java
 │   ├── CommandExecutor.java
 │   └── CommandParser.java
 ├── db/
