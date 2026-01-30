@@ -11,7 +11,7 @@ public enum ErrorMessage {
     NULL_FIELD("is required."),
     LARGE_TITLE("Title must not exceed 28 characters."),
     NEGATIVE_ID("The task ID can't be less than zero."),
-    NO_MATCH_STATUS("None match for this status. Valid status (todo, in progress or done)");
+    NO_MATCH_STATUS("None match for this status. Valid status (to do, in progress or done)");
 
     private final String message;
 
