@@ -12,12 +12,12 @@ public class CliConsole {
     }
 
     public static void printErr(Object message) {
-        System.err.println(Color.getRED() + message + Color.getRESET());
+        System.err.println(Color.RED + message + Color.RESET);
     }
 
     public static void printTasks(List<Task> tasks) {
         if (tasks == null || tasks.isEmpty()) {
-            println(Color.getYELLOW() + "No tasks to display." + Color.getRESET());
+            println(Color.YELLOW + "No tasks to display." + Color.RESET);
             return;
         }
 
@@ -40,11 +40,11 @@ public class CliConsole {
             title = String.format("%-30s", title);
 
             String statusColor = switch (task.getStatus()) {
-                case TODO -> Color.getYELLOW();
-                case IN_PROGRESS -> Color.getBLUE();
-                case DONE -> Color.getGREEN();
+                case TODO -> Color.YELLOW;
+                case IN_PROGRESS -> Color.BLUE;
+                case DONE -> Color.GREEN;
             };
-            String status = String.format("%-21s", statusColor + task.getStatus() + Color.getRESET());
+            String status = String.format("%-21s", statusColor + task.getStatus() + Color.RESET);
 
             println(String.format("│ %s │ %s │ %s │", id, title, status));
         }

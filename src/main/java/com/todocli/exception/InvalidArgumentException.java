@@ -4,6 +4,6 @@ import com.todocli.util.Color;
 
 public class InvalidArgumentException extends RuntimeException {
     public InvalidArgumentException(String message) {
-        super(Color.getRED() + message + Color.getRESET());
+        super(Color.RED + message + Color.RESET);
     }
 }

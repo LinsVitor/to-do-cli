@@ -25,7 +25,7 @@ public class CommandExecutor {
         verifyField(args[1], "Title ");
         verifyField(args[2], "Description ");
         int id = taskService.create(args[1], args[2]);
-        CliConsole.println(Color.getGREEN() + "Task created successfully (ID: " + id + ")" + Color.getRESET());
+        CliConsole.println(Color.GREEN + "Task created successfully (ID: " + id + ")" + Color.RESET);
     }
 
     public void delete(String[] args) {
@@ -41,9 +41,9 @@ public class CommandExecutor {
                 CliConsole.printErr(ErrorMessage.NULL_TASK.getMessage());
                 return;
             }
-            String choice = IO.readln(Color.getYELLOW() + "You are sure? (yes/no) " + Color.getRESET());
+            String choice = IO.readln(Color.YELLOW + "You are sure? (yes/no) " + Color.RESET);
             while (!choice.equalsIgnoreCase("yes") && !choice.equalsIgnoreCase("y") && !choice.equalsIgnoreCase("no") && !choice.equalsIgnoreCase("n")) {
-                choice = IO.readln(Color.getYELLOW() + "You are sure? (yes/no) " + Color.getRESET());
+                choice = IO.readln(Color.YELLOW + "You are sure? (yes/no) " + Color.RESET);
             }
             if (choice.equalsIgnoreCase("yes") || choice.equalsIgnoreCase("y")) {
                 taskService.delete(Integer.parseInt(args[1]));

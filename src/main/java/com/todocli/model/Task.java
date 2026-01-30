@@ -75,9 +75,9 @@ public class Task {
 
     private String getStatusColor() {
         return switch (status) {
-            case TODO -> Color.getYELLOW();
-            case IN_PROGRESS -> Color.getBLUE();
-            case DONE -> Color.getGREEN();
+            case TODO -> Color.YELLOW;
+            case IN_PROGRESS -> Color.BLUE;
+            case DONE -> Color.GREEN;
         };
     }
 
@@ -87,14 +87,14 @@ public class Task {
         String formattedCreatedAt = createdAt.format(formatter);
         String formattedUpdatedAt = updatedAt != null ? updatedAt.format(formatter) : "N/A";
 
-        return " " + Color.getBrightBlack() + "----------------------------------------\n" + Color.getRESET() +
-                Color.getCYAN() + " ID: " + Color.getRESET() + taskId + "\n" +
-                Color.getCYAN() + " Title: " + Color.getRESET() + title + "\n" +
-                Color.getCYAN() + " Description: " + Color.getRESET() + description + "\n" +
-                Color.getCYAN() + " Status: " + getStatusColor() + status + Color.getRESET() + "\n" +
-                Color.getCYAN() + " Created at: " + Color.getRESET() + formattedCreatedAt + "\n" +
-                Color.getCYAN() + " Updated at: " + Color.getRESET() + formattedUpdatedAt + "\n" +
-                " " + Color.getBrightBlack() + "----------------------------------------" + Color.getRESET();
+        return " " + Color.BRIGHT_BLACK + "----------------------------------------\n" + Color.RESET +
+                Color.CYAN + " ID: " + Color.RESET + taskId + "\n" +
+                Color.CYAN + " Title: " + Color.RESET + title + "\n" +
+                Color.CYAN + " Description: " + Color.RESET + description + "\n" +
+                Color.CYAN + " Status: " + getStatusColor() + status + Color.RESET + "\n" +
+                Color.CYAN + " Created at: " + Color.RESET + formattedCreatedAt + "\n" +
+                Color.CYAN + " Updated at: " + Color.RESET + formattedUpdatedAt + "\n" +
+                " " + Color.BRIGHT_BLACK + "----------------------------------------" + Color.RESET;
     }
 
     @Override
